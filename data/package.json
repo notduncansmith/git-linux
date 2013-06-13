@@ -4,12 +4,10 @@
     "author": "Duncan Smith",
     "email": "duncan.smith@whiteboard-it.com",
     "main": "./app.js",
-    "dependencies": {
+    "dependencies": 
+    {
         "appjs": ">0.0.0",
-        "mime": ">0.0.0",
-    },"devDependencies": {
-        "vows": ">0.0.0"
+        "mime": ">0.0.0"
     }
-
 }
 
