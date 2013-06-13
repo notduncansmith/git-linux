@@ -1,1 +1,2 @@
-data/bin/*
+data/bin/
+data/node_modules/
