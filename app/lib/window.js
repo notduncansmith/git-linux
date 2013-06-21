@@ -1,8 +1,5 @@
-var app = module.exports = require('appjs');
-var r = app.router;
-
-app.serveFilesFrom(__dirname + '/content');
-
+module.exports = function(app) {
+  
 var menubar = app.createMenu([{
   label:'&File',
   submenu:[
@@ -89,7 +86,8 @@ window.on('ready', function(){
   console.log("Window Ready");
   window.process = process;
   window.module = module;
-
+  window.frame.openDevTools();
+  
   function F12(e){ return e.keyIdentifier === 'F12' }
   function Command_Option_J(e){ return e.keyCode === 74 && e.metaKey && e.altKey }
 
@@ -103,3 +101,4 @@ window.on('ready', function(){
 window.on('close', function(){
   console.log("Window Closed");
 });
+}

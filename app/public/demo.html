@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Hello from AppJS</title>
+    <link rel="stylesheet" href="./stylesheets/style.css">
+  </head>
+  <body>
+    <h1>Hello World</h1>
+
+    <span data-current-user="userName">Welcome: {{userName}}</span>
+
+    On initialization, Lookout will store the innerText of this span in the span's data-view attribute, so the translated span will look like this:
+    <span data-current-user="userName" data-view="{{#currentUser.username}}Welcome: {{userName}}{{/currentUser.userName}}"></span>
+
+    Notice how Lookout automatically inserted the opening and closing Mustache collection tags?  Yeah, it's that smart.
+    
+    This allows you to easily define complex partials.  To display a user's followers list, one could use the following template:
+    <ul data-current-user="followers">
+      <div class="follower">
+        <strong>{{userName}}</strong>
+        <em>{{firstName}} {{lastName}}</em>
+        <p>{{bio}}</p>
+      </div>
+    </ul>
+
+    Which Lookout would translate to:
+    <ul data-current-user="followers" data-view="{{#currentUser.followers}}<div class='follower'><strong>{{userName}}</strong><em>{{firstName}} {{lastName}}</em><p>{{bio}}</p></div>{{/currentUser.followers}}">
+    </ul>
+
+    And which would render like so:
+
+    <ul data-current-user="followers">
+      <div class="follower">
+        <strong >mcsharps</strong>
+        <em>Madison Sharps</em>
+        <p>Muzak iz my lyfe</p>
+      </div>
+      <div class="follower">
+        <strong>pjschmidt</strong>
+        <em>Phillip Schmidt</em>
+        <p>Computers are weird, dude</p>
+      </div>
+      <div class="follower">
+        <strong>jwood</strong>
+        <em>John Wood</em>
+        <p>Women suck at everything - except making sandwiches</p>
+      </div>
+    </ul>
+
+    Plus, if you wanted to make it REALLY FREAKING DYNAMIC (not wholly recommended but whatevs), you could this:
+    <ul data-current-user="followers">
+      <div class="follower">
+        <strong data-{{userName}}="userName">{{userName}}</strong>
+        <em data-{{userName}}="firstName">{{firstName}}</em> <em data-{{userName}}="lastName">{{lastName}}</em>
+        <p data-{{userName}}>{{bio}}</p>
+      </div>
+    </ul>
+
+    Which renders to:
+
+    <ul data-current-user="followers">
+      <div class="follower">
+        <strong data-mcsharps="userName">{{userName}}</strong>
+        <em data-mcsharps="firstName">{{firstName}}</em> <em data-mcsharps="lastName">{{lastName}}</em>
+        <p data-mcsharps>{{bio}}</p>
+      </div>
+    </ul>
+
+
+    BUT DUNCAN, WHAT ABOUT MY DYNAMICALLY INSERTED MARKUP?  HOW DOES LOOKOUT KNOW HOW TO RENDER THESE THINGS?
+
+    Simple: just tell Lookout to track them by calling Lookout.track(myObject) .  This will add them to Lookout's list of tracked DOM elements, and Lookout will treat them just as if they had existed from the beginning.
+
+    So, just write your markup as if you were writing it for server-side templating, and write your Javascript like you're not (i.e. write much less of it).
+
+  </body>
+    <script src="./javascripts/jquery.min.js"></script>
+    <script src="./javascripts/app.js"></script>
+</html>

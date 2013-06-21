@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Hello from AppJS</title>
+    <link rel="stylesheet" href="./stylesheets/style.css">
+  </head>
+  <body>
+    <h1>Hello World</h1>
+    <fieldset>
+      <legend>Madison</legend>
+      <input type="text" data-mcsharps="userName">
+      <input type="text" data-mcsharps="bio">
+      <h1 data-mcsharps="userName"><strong>{{userName}}</strong></h1>
+      <p data-mcsharps="bio">{{bio}}</p>
+    </fieldset>
+
+    <fieldset>
+      <legend>Duncan</legend>
+      <input type="text" data-notduncansmith="userName">
+      <input type="text" data-notduncansmith="bio">
+      <h1 data-notduncansmith="userName"><strong>{{userName}}</strong></h1>
+      <p data-notduncansmith="bio">{{bio}}</p>
+    </fieldset>
+
+  </body>
+    <script src="./javascripts/jquery.min.js"></script>
+    <script src="./javascripts/app.js"></script>
+    <script src="./javascripts/mustache.js"></script>
+    <script src="./javascripts/lookout.min.js"></script>
+    <script>
+      $(document).ready(function(){
+        Lookout.init(options);
+      })
+    </script>
+</html>
