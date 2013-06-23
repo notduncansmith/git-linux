@@ -16,15 +16,17 @@
     
     This allows you to easily define complex partials.  To display a user's followers list, one could use the following template:
     <ul data-current-user="followers">
+      {{#followers}}
       <div class="follower">
         <strong>{{userName}}</strong>
         <em>{{firstName}} {{lastName}}</em>
         <p>{{bio}}</p>
       </div>
+      {{/followers}}
     </ul>
 
     Which Lookout would translate to:
-    <ul data-current-user="followers" data-view="{{#currentUser.followers}}<div class='follower'><strong>{{userName}}</strong><em>{{firstName}} {{lastName}}</em><p>{{bio}}</p></div>{{/currentUser.followers}}">
+    <ul data-current-user="followers" data-view="{{#currentUser}}{{#followers}}<div class='follower'><strong>{{userName}}</strong><em>{{firstName}} {{lastName}}</em><p>{{bio}}</p></div>{{/followers}}{{/currentUser}}">
     </ul>
 
     And which would render like so:

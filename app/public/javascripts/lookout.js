@@ -34,12 +34,12 @@ var Lookout = {
     watchString = watchString.substring(0, watchString.length - 1); //Drop the last comma
 
     $(watchString).map(function (index, item) {
-      $(this).val(Lookout.models[model.id][$(this).data(model.id)])
-
+      $(this).val(Lookout.models[model.id][$(this).data(model.id)]) //Set inputs to initial values
       var updatedModel = model
         , updatedProp = $(this).data(model.id)
         , newValue = $(this).val();
 
+      //Update the DOM with current values
       Lookout.beforeUpdate(updatedModel, updatedProp, newValue)
       Lookout.update(updatedModel, updatedProp, newValue)
       Lookout.afterUpdate(updatedModel, updatedProp, newValue)
@@ -70,12 +70,17 @@ var Lookout = {
   update: function(updatedModel, updatedProp, newValue) {
     Lookout.models[updatedModel.id][updatedProp] = newValue;
     var selector = "[data-" + updatedModel.id + "='" + updatedProp + "']";
-
     $(selector).map(function (index, item) {
       if(!$(item).data('view')){
-        $(item).data('view', $(item).html()) // Set the data-view to the innerHtml (the template)
+        $(item).data('view', $(item).html())  // Set the data-view to the innerHtml (the template)
       }
-      var newHtml = Mustache.render($(this).data("view"), Lookout.models[updatedModel.id]);
+      var template = '{{#' + updatedModel.id + '}}' + $(this).data("view") + '{{/' + updatedModel.id + '}}'
+        , data = {}
+        , newHtml = '';
+      console.log("Template:" + template)
+      data[updatedModel.id] = Lookout.models[updatedModel.id];
+      newHtml = Mustache.render(template, data);
+
       $(item).html(newHtml)
     })
   }
