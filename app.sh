@@ -1,3 +1,3 @@
 #!/bin/sh
 
-./bin/node --harmony ./app.js 
+/home/duncan/j/ub-git/app/bin/node --harmony /home/duncan/j/ub-git/app/app.js 

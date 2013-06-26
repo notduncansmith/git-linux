@@ -58,7 +58,7 @@
           $.ajax({
             url: $(this).attr('href'),
             type: 'GET',
-            data: {cmd: 'git log'},
+            data: {cmd: 'git log --format=fuller'},
             success: function(data){
               $('body').html(data.stdout);
             }
