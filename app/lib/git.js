@@ -9,7 +9,7 @@ module.exports = function(cmd, res, notGit, cwd) {
       stderr: stderr,
       cmd: cmd
     };
-    console.log(result.stdout)
+    
     res.send(result);
   }); 
 }

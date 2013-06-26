@@ -6,8 +6,24 @@
   </head>
   <body>
   <a href="/log" class="git">Log</a>
-  <br>
-  <a href="/allRepos" class="git">All Repos</a>
+  <a href="/remotes" class="git">Show Remotes</a>
+
+  <form action="/repo/new" method="POST">
+    <fieldset>
+      <legend>New Repo</legend>
+      <input type="text" name="repoName">
+      <input type="submit">
+    </fieldset>
+  </form>
+
+  <form action="/repo/get">
+    <fieldset>
+      <legend>Get A Repo</legend>
+      <input type="text" name="repoId" value="cBN0PPuhqBwQkuuG">
+      <input type="submit">
+    </fieldset>
+  </form>
+
 
   <div class="output"></div>
   </body>
@@ -15,9 +31,9 @@
     <script src="./javascripts/app.js"></script>
     <script>
       $(document).ready(function(){
+        
         $(".git").click(function(e){
           e.preventDefault();
-
           $.ajax({
             url: $(this).attr('href'),
             type: 'GET',
@@ -26,6 +42,24 @@
                 $('.output').html(data.stderr).addClass('error');
               } else {
                 $('.output').html(data.stdout);
+              }
+            }
+          })
+        })
+
+        $("form").submit(function(e){
+          e.preventDefault();
+          $.ajax({
+            url: $(this).attr('action'),
+            type: $(this).attr('method') || "GET",
+            data: $(this).serialize(),
+            success: function(data){
+              data = JSON.stringify(data)
+              console.log(data)
+              if(data.stderr){
+                $('.output').html(data).addClass('error');
+              } else {
+                $('.output').html(data);
               }
             }
           })
