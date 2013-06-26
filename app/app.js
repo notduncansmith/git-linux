@@ -1,9 +1,8 @@
 var app = require('appjs')
-  , url = require('url')
-  , exec = require('child_process').exec
-  , router = app.router;
+  , router = app.router
+  , git = require('./lib/git.js');
 
 app.serveFilesFrom('./public');
-
-require('./lib/controllers')(router, url, exec)
-require('./lib/window')(app)
+require('./lib/repositories')
+require('./lib/controllers')(router, git);
+require('./lib/window')(app);
