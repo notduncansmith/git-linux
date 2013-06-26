@@ -1,12 +1,12 @@
 function parseDiff(fileArray) {
 	var fileSelectHtml = ""
     , diffHtml = "";
-	diffText.forEach(function(file) {
+	fileArray.forEach(function(file) {
     var fileNameLine = file.lines[0];
     fileSelectHtml +=  '<div class="' + file.type + '"></div><div class="filePath">' + fileNameLine.substring(fileNameLine.indexOf('\/'),fileNameLine.length -1) + '</div>'
     diffHtml += '<ul class="fileLines">';
     file.lines.forEach(function(line) {
-      diffHtml += '<li class="fileLine">' + line + '</li>';
+      diffHtml += ('<li class="fileLine">' + line.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") + '</li>');
     });
     diffHtml += "</ul>";
 	});

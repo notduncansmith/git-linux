@@ -19,7 +19,7 @@ function parseGitLog(text, delimiter) {
 }
 
 function parseGitRemotes(text) {
-  var remotes = text.split('\n');
+  var remotes = text.split('\n')
     , remoteList = [];
 
   remoteList.push(remotes.map(function(remote){
@@ -84,5 +84,9 @@ function parseGitDiff(text) {
   // })
   return modifiedFiles;
 };
+
+return {
+  parseGitDiff: parseGitDiff
+}
 
 }

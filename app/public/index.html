@@ -7,6 +7,7 @@
   <body>
   <a href="/log" class="git">Log</a>
   <a href="/remotes" class="git">Show Remotes</a>
+  <a href="#" id="diff">Diff</a>
 
   <form action="/repo/new" method="POST">
     <fieldset>
@@ -26,11 +27,35 @@
 
 
   <div class="output"></div>
+
+    <div id="fileSelect"></div>
+    <div id="diffBox"></div>
   </body>
     <script src="./javascripts/jquery.min.js"></script>
+    <script type="text/javascript" src="./javascripts/parseDiff.js"></script>
+    <script type="text/javascript" src="./javascripts/mustache.js"></script>
+    <script type="text/javascript">
+      $(function(){
+        
+      });
+    </script>
+
     <script src="./javascripts/app.js"></script>
     <script>
       $(document).ready(function(){
+
+        $("#diff").click(function(e){
+          e.preventDefault();
+          $.ajax({
+            url: '/diff',
+            success: function(data){
+              console.log(data)
+              var html = parseDiff(data);
+              $('#fileSelect').html(html.fileSelect);
+              $('#diffBox').html(html.diff);
+            }
+          })
+        })
         
         $(".git").click(function(e){
           e.preventDefault();

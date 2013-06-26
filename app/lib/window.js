@@ -70,8 +70,8 @@ var statusIcon = app.createStatusIcon({
 });
 
 var window = app.createWindow({
-  width  : 640,
-  height : 460,
+  width  : 1000,
+  height : 600,
   icons  : __dirname + '/content/icons'
 });
 

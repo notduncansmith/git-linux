@@ -6,3 +6,18 @@
   display: block;
   font-size: 16px;
 }
+
+#fileSelect {
+  height: 400px;
+  width: 400px;
+  border: 1px solid gray;
+  float: left;
+}
+
+div#diffBox {
+  height: 400px;
+  width: 400px;
+  border: 1px solid gray;
+  float: right;
+  overflow-y: scroll;
+}
