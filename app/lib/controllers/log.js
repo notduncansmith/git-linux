@@ -2,7 +2,6 @@
 module.exports = function(router, url, exec) {
 
 router.get('/git', function(req, res, next){
-  console.log("asdf")
   var parsedUrl = url.parse(req.url, true);
   var cmd = parsedUrl.query['cmd'];
   
