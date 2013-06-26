@@ -8,16 +8,16 @@ var Lookout = {
     Lookout.afterUpdate = options.afterUpdate || function(){};
 
     //Watch objects
-    options.collections.forEach(function (item, index){
-      for (var i = options.collections[index].length - 1; i >= 0; i--) {
-        var self = options.collections[index][i];
+    options.models.forEach(function (item, index){
+      var self = options.models[index];
+      var storedSelf = docCookies.getItem(self.id)
+      
+      var model = Lookout.models[self.id] = storedSelf || self; //Add to Lookout's list of models
 
-        Lookout.models[self.id] = self; //Add to Lookout's list of models
-        Lookout.beforeWatch(self)
-        Lookout.watch(self)
-        Lookout.afterWatch(self)
-      };
-    })
+      Lookout.beforeWatch(model)
+      Lookout.watch(model)
+      Lookout.afterWatch(model)
+    });
   },
   watch: function(model) {
     var watchString = ''
@@ -35,15 +35,20 @@ var Lookout = {
 
     $(watchString).map(function (index, item) {
       $(this).val(Lookout.models[model.id][$(this).data(model.id)]) //Set inputs to initial values
-      var updatedModel = model
-        , updatedProp = $(this).data(model.id)
-        , newValue = $(this).val();
-
-      //Update the DOM with current values
-      Lookout.beforeUpdate(updatedModel, updatedProp, newValue)
-      Lookout.update(updatedModel, updatedProp, newValue)
-      Lookout.afterUpdate(updatedModel, updatedProp, newValue)
     });
+
+    for (var i = props.length - 1; i >= 0; i--) {
+      $("[data-" + model.id + "='" + props[i] + "']").map(function (item, index){
+        var updatedModel = model
+          , updatedProp = props[i]
+          , newValue = model[updatedProp];
+
+        //Update the DOM with current values
+        Lookout.beforeUpdate(updatedModel, updatedProp, newValue)
+        Lookout.update(updatedModel, updatedProp, newValue)
+        Lookout.afterUpdate(updatedModel, updatedProp, newValue)
+      })
+    };
 
     if(options.onKeyUp){
       $(watchString).keyup(function(){ //if onKeyUp is true, watch on keyup
@@ -73,15 +78,18 @@ var Lookout = {
     $(selector).map(function (index, item) {
       if(!$(item).data('view')){
         $(item).data('view', $(item).html())  // Set the data-view to the innerHtml (the template)
+        // if(Array.isArray(updatedModel[updatedProp])){
+        //   $(item).data('view', '{{#' + updatedProp + '}}{{#.}}' + $(item).data('view') + '{{/.}}{{/' + updatedProp + '}}')
+        // }
       }
       var template = '{{#' + updatedModel.id + '}}' + $(this).data("view") + '{{/' + updatedModel.id + '}}'
         , data = {}
         , newHtml = '';
-      console.log("Template:" + template)
       data[updatedModel.id] = Lookout.models[updatedModel.id];
       newHtml = Mustache.render(template, data);
 
       $(item).html(newHtml)
+      docCookies.setItem(updatedModel.id, updatedModel)
     })
   }
 }

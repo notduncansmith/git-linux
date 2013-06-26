@@ -6,58 +6,63 @@
   </head>
   <body>
     <h1>Hello World</h1>
+    <style data-current="color">
+    body{
+      background-color: {{color}};
+      color: {{#invertColor}}{{color}}{{/invertColor}};
+    }
+    </style>
     <fieldset>
       <legend>Madison</legend>
-      <input type="text" data-current="userName">
-      <input type="text" data-current="bio">
+      <label for="Username">
+        Username:
+      </label>
+      <input type="text" data-current="userName" id="Username">
+      <br><br>
+
+      <label for="Bio">
+        Bio:
+      </label>
+      <input type="text" data-current="bio" id="Bio">
+      <br><br>
+
+      <label for="bgc">
+        Background Color:
+      </label>
+      <input data-current="color" id="bgc">
       <h1 data-current="userName"><strong>{{userName}}</strong></h1>
       <p data-current="bio">{{bio}}</p>
     </fieldset>
-<br>
-<br>
-    <div data-current="posts">
-      {{#posts}}
-      {{#.}}
-      <hr>
-      <article data-id="{{id}}">
-        <h1 data-{{id}}="title">{{title}}</h1>
-        <em>by {{author}}</em>
-        <p data-{{id}}="content">{{content}}</p>
-        <a href="#" class="edit">Edit this post</a>
-        <input type="text" data-{{id}}="title" class="edit">
-        <input type="text" data-{{id}}="content" class="edit">
-      </article>
-      <hr>
-      {{/.}}
-      {{/posts}}
-    </div>
 
+    <div data-current="test">
+      {{#post}}
+        <h1>{{title}}</h1>
+        <em>- by {{author}} {{^author}}Somebody{{/author}}</em>
+        <p>{{content}}</p>
+      {{/post}}
+    </div>
+  <a href="/git" id="git">Check this shit</a>
   </body>
     <script src="./javascripts/jquery.min.js"></script>
     <script src="./javascripts/app.js"></script>
     <script src="./javascripts/mustache.js"></script>
+    <script src="./javascripts/cookies.js"></script>
     <script src="./javascripts/lookout.js"></script>
     <script>
       $(document).ready(function(){
         Lookout.init(options);
-
-
-
-        Lookout.update(Lookout.models.current, 'posts', Lookout.models.current.posts);
-        $("[data-id]").each(function(index, item){
-          $('[data-' + $(this).data('id') + ']').each(function(index, item){
-            $(item).data('view', '{{' + $(item).data($(item).parent().data('id')) + '}}')
-          })
-          Lookout.watch(Lookout.models[$(this).data("id")])
-        })
-
-
-
-        $('input.edit').hide();
-
-        $('a.edit').click(function(e){
+        $("#test").html(Mustache.render($("#test").html(), user.test))
+        console.log(user)
+        $("#git").click(function(e){
           e.preventDefault();
-          $('input.edit').toggle();
+          $.ajax({
+            url: $(this).attr('href'),
+            type: 'GET',
+            data: {cmd: 'git log'},
+            success: function(data){
+              $('body').html(data.stdout);
+            }
+          })
         })
       })
     </script>
