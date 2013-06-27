@@ -1,8 +1,20 @@
 module.exports = function(router, git, repos) {
-var repoRepo = repos.repoRepo;
+var repoRepo = repos.repoRepo
+  , parseHelper = require('../parsers')
+
+
+function respond(res) {
+  return function(err, stdout, stderr) { 
+    var result = {
+      stdout: stdout,
+      stderr: stderr
+    };
+    res.send(result);
+  }
+}
 
 router.get('/log', function(req, res, next){    
-  git('log -z', res);
+  git('log -z', respond(res));
 });
 
 router.get('/repo/get', function(req, res, next){    
@@ -10,7 +22,7 @@ router.get('/repo/get', function(req, res, next){
   var repoId = req.params.repoId
     , get = repoRepo.get;
 
-  get(repoId, res);
+  get(repoId, respond(res));
 });
 
 router.post('/repo/new', function(req, res, next){    
@@ -22,11 +34,20 @@ router.post('/repo/new', function(req, res, next){
 });
 
 router.get('/remotes', function(req, res, next){    
-  git('remote -v', res);
+  git('remote -v', respond(res));
 });
 
-router.get('/diff', function(req, res, next){
-  var parse = require('../parsers')();
+router.get('/diff', function(req, res) {
+  git('diff', function(err, stdout) {
+    if(err) {
+      res.fail(err);
+    }
+    var parsed = parseHelper.parseGitDiff(stdout, true);
+    res.send(parsed);
+  });
+});
+
+router.get('/diff/test', function(req, res, next){
 
   var diff = "diff --git a/app/app.js b/app/app.js \n\
 index f07de71..5d50dc6 100644 \n\
@@ -198,8 +219,13 @@ index f2aace2..21cc511 100644 \n\
 +  font-size: 16px; \n\
  } \n\
 \ No newline at end of file";
-var parsed = parse.parseGitDiff(diff);
-res.send(parsed)
+  var parsed = parseHelper.parseGitDiff(diff, true);
+  res.send(parsed)
 })
+
+router.get('/diff/:id', function(req,res) {
+  var parsed = parseHelper.parseGitDiff(diff)
+  res.send(parsed);
+});
 
 }

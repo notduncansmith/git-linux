@@ -56,6 +56,17 @@
             }
           })
         })
+
+        $(document).on('click','.filePath',function(){
+          $.ajax({
+            url: '/diff/' + encodeURIComponent($(this).text()),
+            type: 'GET',
+            success: function(diffResult) {
+              var html = parseDiff(data);
+              $('#diffBox').html(html.diff);
+            }
+          });          
+        });
         
         $(".git").click(function(e){
           e.preventDefault();

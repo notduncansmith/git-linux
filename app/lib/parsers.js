@@ -1,6 +1,5 @@
-module.exports = function() {
-
-function parseGitLog(text, delimiter) {
+module.exports=  {
+parseGitLog: function(text, delimiter) {
   var commits = text.split(delimiter);
   var commitList = [];
     
@@ -17,8 +16,7 @@ function parseGitLog(text, delimiter) {
   }));
   return commitList;
 }
-
-function parseGitRemotes(text) {
+,parseGitRemotes: function(text) {
   var remotes = text.split('\n')
     , remoteList = [];
 
@@ -31,9 +29,7 @@ function parseGitRemotes(text) {
     }
   }));
   return remoteList;
-}
-
-function parseGitBranch(text) {
+},parseGitBranch: function(text) {
   var branches = text.split('\n');
   var branchList = [];
   
@@ -45,10 +41,9 @@ function parseGitBranch(text) {
     }
   }));
   return branchList;
-}
-
-function parseGitDiff(text) {
-  var modifiedFiles = text.split('diff --git').map(function(file){
+},parseGitDiff: function(text, multiFile) {
+  var base = multiFile ? text.split('diff --git') : [text];
+  var modifiedFiles = base.map(function(file){
     return file.trim();
   }).filter(function(trimmedFile) {
     return trimmedFile.length > 0;
@@ -77,16 +72,6 @@ function parseGitDiff(text) {
       lines : lines
     }
   })
-  // var fileList = [];
-  
-  // modifiedFiles.forEach(function(file) {
-    
-  // })
   return modifiedFiles;
-};
-
-return {
-  parseGitDiff: parseGitDiff
 }
-
 }
