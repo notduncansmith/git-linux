@@ -41,8 +41,8 @@ parseGitLog: function(text, delimiter) {
     }
   }));
   return branchList;
-},parseGitDiff: function(text, multiFile) {
-  var base = multiFile ? text.split('diff --git') : [text];
+},parseGitDiff: function(text) {
+  var base = text.split('diff ' + '--git');
   var modifiedFiles = base.map(function(file){
     return file.trim();
   }).filter(function(trimmedFile) {
