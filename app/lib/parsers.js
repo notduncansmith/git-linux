@@ -16,7 +16,7 @@ parseGitLog: function(text, delimiter) {
   }));
   return commitList;
 }
-,parseGitRemotes: function(text) {
+, parseGitRemotes: function(text) {
   var remotes = text.split('\n')
     , remoteList = [];
 
@@ -29,7 +29,8 @@ parseGitLog: function(text, delimiter) {
     }
   }));
   return remoteList;
-},parseGitBranch: function(text) {
+}
+, parseGitBranch: function(text) {
   var branches = text.split('\n');
   var branchList = [];
   
@@ -41,7 +42,8 @@ parseGitLog: function(text, delimiter) {
     }
   }));
   return branchList;
-},parseGitDiff: function(text) {
+}
+,parseGitDiff: function(text) {
   var base = text.split('diff ' + '--git');
   var modifiedFiles = base.map(function(file){
     return file.trim();
@@ -74,4 +76,5 @@ parseGitLog: function(text, delimiter) {
   })
   return modifiedFiles;
 }
+
 }

@@ -2,7 +2,9 @@ module.exports = function(router, git, repos) {
 var repoRepo = repos.repoRepo
   , parseHelper = require('../parsers')
 
-
+//Here ya go. Thought of a better way to deal with callbacks.
+//Just didn't feel right to be passing the response across files like that.
+//Now we can pass custom callbacks to git(), too
 function respond(res) {
   return function(err, stdout, stderr) { 
     var result = {

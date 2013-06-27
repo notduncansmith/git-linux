@@ -1,5 +1,6 @@
 var exec = require('child_process').exec;
 
+//To do non-git stuff, use "git(cmd, {shell:true}, callback);"
 module.exports = function(cmd, options, callback) {
 
   if(!options) options = {};
