@@ -28,7 +28,11 @@
 
   <div class="output"></div>
 
-    <div id="fileSelect"></div>
+    <div id="fileSelect">
+      <ul>
+        <li class="filePath">Hello</li>
+      </ul>
+    </div>
     <div id="diffBox"></div>
   </body>
     <script src="./javascripts/jquery.min.js"></script>
@@ -53,17 +57,36 @@
               var html = parseDiff(data);
               $('#fileSelect').html(html.fileSelect);
               $('#diffBox').html(html.diff);
+              styleDiffs();
             }
           })
         })
 
+        function styleDiffs() {
+          $('.fileLine').each(function(index,item) {                
+            var trimmed = $(item).text().trim();
+            if(trimmed[0] == "+") {
+              $(item).addClass('added');
+            } else if(trimmed[0] == '-') {
+              $(item).addClass('deleted');
+            }
+          })
+        }
+
         $(document).on('click','.filePath',function(){
+          var self = this;
           $.ajax({
-            url: '/diff/' + encodeURIComponent($(this).text()),
+            url: '/diff?path=' + encodeURIComponent($(this).text()),
             type: 'GET',
             success: function(diffResult) {
-              var html = parseDiff(data);
+              $('.activeFile').removeClass('activeFile');
+              $(self).addClass('activeFile');
+              var html = parseDiff(diffResult);
               $('#diffBox').html(html.diff);
+              styleDiffs();
+            },
+            error: function(err) {
+              alert('error');
             }
           });          
         });
