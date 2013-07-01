@@ -83,6 +83,7 @@
             data: { toCommit: $('#hdnFilesToCommit').val()},
             success: function() {
               console.log('files committed');
+              $('.activeFile').hide();
             },
             error: function(){
               console.log('commit error')
