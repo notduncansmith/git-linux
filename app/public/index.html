@@ -7,7 +7,7 @@
   <body>
   <a href="/log" class="git">Log</a>
   <a href="/remotes" class="git">Show Remotes</a>
-  <a href="#" id="diff">Diff</a>
+  <a href="#" id="diff">Commit</a>
 
   <form action="/repo/new" method="POST">
     <fieldset>
@@ -28,12 +28,13 @@
 
   <div class="output"></div>
 
-    <div id="fileSelect">
-      <ul>
-        <li class="filePath">Hello</li>
+    <div id="fileSelect" style="display:none;">
+      <ul>        
       </ul>
     </div>
-    <div id="diffBox"></div>
+    <div id="diffBox" style="display:none;"></div>
+    <input type="button" id="commitButton" style="display:none;" value="Commit"></div>
+    <input type="hidden" id="hdnFilesToCommit" />
   </body>
     <script src="./javascripts/jquery.min.js"></script>
     <script type="text/javascript" src="./javascripts/parseDiff.js"></script>
@@ -56,8 +57,11 @@
               console.log(data)
               var html = parseDiff(data);
               $('#fileSelect').html(html.fileSelect);
-              $('#diffBox').html(html.diff);
+              // $('#diffBox').html(html.diff);
               styleDiffs();
+              $('#fileSelect').show();
+              $('#diffBox').show();
+              $('#commitButton').show();
             }
           })
         })
@@ -73,8 +77,22 @@
           })
         }
 
+        $('#commitButton').on('click', function() {
+          $.ajax({
+            url: '/commit',
+            data: { toCommit: $('#hdnFilesToCommit').val()},
+            success: function() {
+              console.log('files committed');
+            },
+            error: function(){
+              console.log('commit error')
+            }
+          })
+        });
+
         $(document).on('click','.filePath',function(){
           var self = this;
+          $('#hdnFilesToCommit').val($(this).text());
           $.ajax({
             url: '/diff?path=' + encodeURIComponent($(this).text()),
             type: 'GET',
