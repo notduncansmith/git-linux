@@ -1,8 +1,12 @@
 <!doctype html>
 <html>
   <head>
-    <title>Hello from AppJS</title>
-    <link rel="stylesheet" href="./stylesheets/style.css">
+    <title>Git-Linux</title>
+    <link rel="stylesheet" href="stylesheets/foundation.min.css">
+    <link rel="stylesheet" href="stylesheets/app.css">
+    <link rel="stylesheet" href="./stylesheets/style.css"> 
+
+    <script src="javascripts/modernizr.foundation.js"></script>
   </head>
   <body>
   <a href="/log" class="git">Log</a>
@@ -20,16 +24,18 @@
   <form action="/repo/get">
     <fieldset>
       <legend>Get A Repo</legend>
-      <input type="text" name="repoId" value="cBN0PPuhqBwQkuuG">
+      <input type="text" name="repoId">
       <input type="submit">
     </fieldset>
   </form>
 
 
   <div class="output"></div>
-
-    <div id="fileSelect"></div>
-    <div id="diffBox"></div>
+    <div class="row">
+      <div id="fileSelect" class="five columns"></div>
+      <div class="two columns"></div>
+      <div id="diffBox" class="five columns"></div>
+    </div>
   </body>
     <script src="./javascripts/jquery.min.js"></script>
     <script type="text/javascript" src="./javascripts/parseDiff.js"></script>

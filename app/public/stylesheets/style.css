@@ -8,16 +8,14 @@
 }
 
 #fileSelect {
-  height: 400px;
-  width: 400px;
   border: 1px solid gray;
+  height:400px;
   float: left;
 }
 
 div#diffBox {
-  height: 400px;
-  width: 400px;
   border: 1px solid gray;
+  height:400px;
   float: right;
   overflow-y: scroll;
 }
