@@ -59,7 +59,7 @@ router.get('/commit', function(req, res) {
     
   });
 
-  git('commit -am "got basic commit support working"', {cwd: '/home/phillip/working/git-linux'}, function(err, out) {
+  git('commit -am "' + req.params.commitMessage + '"', {cwd: '/home/phillip/working/git-linux'}, function(err, out) {
     res.send(out);
   });
 });

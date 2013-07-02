@@ -34,6 +34,7 @@
     </div>
     <div id="diffBox" style="display:none;"></div>
     <input type="button" id="commitButton" style="display:none;" value="Commit"></div>
+    <textarea id="commitMessage" style="display:none;" placeHolder="Commit message"></textarea>
     <input type="hidden" id="hdnFilesToCommit" />
   </body>
     <script src="./javascripts/jquery.min.js"></script>
@@ -62,6 +63,7 @@
               $('#fileSelect').show();
               $('#diffBox').show();
               $('#commitButton').show();
+              $('#commitMessage').show();
             }
           })
         })
@@ -80,7 +82,8 @@
         $('#commitButton').on('click', function() {
           $.ajax({
             url: '/commit',
-            data: { toCommit: $('#hdnFilesToCommit').val()},
+            data: { toCommit: $('#hdnFilesToCommit').val(),
+                    commitMessage : $('#commitMessage').val()},
             success: function() {
               console.log('files committed');
               $('.activeFile').hide();
