@@ -1,5 +1,6 @@
 app/bin/
 app/node_modules/
+app/lib/settings.js
 npm-debug.log
 app.sublime-project
 app.sublime-workspace

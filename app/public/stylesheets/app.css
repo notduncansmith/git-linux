@@ -16,6 +16,7 @@ div#diffBox {
   border: 1px solid gray;
   float: right;
   overflow-y: scroll;
+  
   height: 100%;
   width: 100%;
 }
