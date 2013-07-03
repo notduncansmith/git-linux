@@ -36,3 +36,15 @@
   }
 
 })(jQuery, this);
+
+var options = {
+  models: [
+  {
+    id: "user",
+    userName: "notduncansmith",
+    name: "Duncan Smith",
+    email: "duncan.smith@whiteboard-it.com"
+  }]
+}
+
+Lookout.init(options)

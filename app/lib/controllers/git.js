@@ -59,7 +59,7 @@ router.get('/commit', function(req, res) {
     
   });
 
-  git('commit "' + req.params.commitMessage + '"', {cwd: '/home/phillip/working/git-linux'}, function(err, out) {
+  git('commit -m "' + req.params.commitMessage + '"', {cwd: '/home/phillip/working/git-linux'}, function(err, out) {
     res.send(out);
   });
 });

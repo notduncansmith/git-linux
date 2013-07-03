@@ -10,9 +10,7 @@ var Lookout = {
     //Watch objects
     options.models.forEach(function (item, index){
       var self = options.models[index];
-      var storedSelf = docCookies.getItem(self.id)
-      
-      var model = Lookout.models[self.id] = storedSelf || self; //Add to Lookout's list of models
+      var model = Lookout.models[self.id] = self; //Add to Lookout's list of models
 
       Lookout.beforeWatch(model)
       Lookout.watch(model)

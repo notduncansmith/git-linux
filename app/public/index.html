@@ -1,154 +1,77 @@
-<!doctype html>
-<html>
-  <head>
-    <title>Git-Linux</title>
-    <link rel="stylesheet" href="stylesheets/foundation.min.css">
-    <link rel="stylesheet" href="stylesheets/app.css">
-    <link rel="stylesheet" href="./stylesheets/style.css"> 
+<!DOCTYPE html>
+<!--[if IE 8]> 				 <html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 
-    <script src="javascripts/modernizr.foundation.js"></script>
-  </head>
-  <body>
-  <a href="/log" class="git">Log</a>
-  <a href="/remotes" class="git">Show Remotes</a>
-  <a href="#" id="diff">Commit</a>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width" />
+<title>Gittux</title>
 
-  <form action="/repo/new" method="POST">
-    <fieldset>
-      <legend>New Repo</legend>
-      <input type="text" name="repoName">
-      <input type="submit">
-    </fieldset>
-  </form>
+<link rel="stylesheet" href="/css/foundation.css" />
+<link rel="stylesheet" href="/stylesheets/app.css">
 
-  <form action="/repo/get">
-    <fieldset>
-      <legend>Get A Repo</legend>
-      <input type="text" name="repoId">
-      <input type="submit">
-    </fieldset>
-  </form>
+<script src="js/vendor/custom.modernizr.js"></script>
+</head>
+<body>
+
+  <a href="#" id="diff" data-reveal-id="commitModal" class="success button">Commit</a>
+  <a href="#" id="diff" data-reveal-id="settingsModal" class="button">Settings</a>
 
 
-  <div class="output"></div>
-
-    <div id="fileSelect" style="display:none;">
-      <ul>        
-      </ul>
+<!-- Modals -->
+  <div id="commitModal" class="reveal-modal">
+    <div id="fileSelect">
     </div>
-    <div id="diffBox" style="display:none;"></div>
-    <input type="button" id="commitButton" style="display:none;" value="Commit"></div>
-    <textarea id="commitMessage" style="display:none;" placeHolder="Commit message"></textarea>
-    <input type="hidden" id="hdnFilesToCommit" />
-  </body>
-    <script src="./javascripts/jquery.min.js"></script>
-    <script type="text/javascript" src="./javascripts/parseDiff.js"></script>
-    <script type="text/javascript" src="./javascripts/mustache.js"></script>
-    <script type="text/javascript">
-      $(function(){
-        
-      });
-    </script>
+    <div id="diffBox"></div>
+  </div>
 
-    <script src="./javascripts/app.js"></script>
-    <script>
-      $(document).ready(function(){
+  <div id="settingsModal" class="reveal-modal">
+    <label for="userName">Username</label>
+    <input type="text" data-user="userName" placeholder="therealjohnsample" id="userName" name="userName">
 
-        $("#diff").click(function(e){
-          e.preventDefault();
-          $.ajax({
-            url: '/diff',
-            success: function(data){
-              console.log(data)
-              var html = parseDiff(data);
-              $('#fileSelect').html(html.fileSelect);
-              // $('#diffBox').html(html.diff);
-              styleDiffs();
-              $('#fileSelect').show();
-              $('#diffBox').show();
-              $('#commitButton').show();
-              $('#commitMessage').show();
-            }
-          })
-        })
+    <label for="name">Name</label>
+    <input type="text" data-user="name" placeholder="John Q Sample" id="name" name="name">
 
-        function styleDiffs() {
-          $('.fileLine').each(function(index,item) {                
-            var trimmed = $(item).text().trim();
-            if(trimmed[0] == "+") {
-              $(item).addClass('added');
-            } else if(trimmed[0] == '-') {
-              $(item).addClass('deleted');
-            }
-          })
-        }
+    <label for="email">Email</label>
+    <input type="text" data-user="email" placeholder="john.q.sample@example.com" id="email" name="email">
+  </div>
 
-        $('#commitButton').on('click', function() {
-          $.ajax({
-            url: '/commit',
-            data: { toCommit: $('#hdnFilesToCommit').val(),
-                    commitMessage : $('#commitMessage').val()},
-            success: function() {
-              console.log('files committed');
-              $('.activeFile').hide();
-            },
-            error: function(){
-              console.log('commit error')
-            }
-          })
-        });
 
-        $(document).on('click','.filePath',function(){
-          var self = this;
-          $('#hdnFilesToCommit').val($(this).text());
-          $.ajax({
-            url: '/diff?path=' + encodeURIComponent($(this).text()),
-            type: 'GET',
-            success: function(diffResult) {
-              $('.activeFile').removeClass('activeFile');
-              $(self).addClass('activeFile');
-              var html = parseDiff(diffResult);
-              $('#diffBox').html(html.diff);
-              styleDiffs();
-            },
-            error: function(err) {
-              alert('error');
-            }
-          });          
-        });
-        
-        $(".git").click(function(e){
-          e.preventDefault();
-          $.ajax({
-            url: $(this).attr('href'),
-            type: 'GET',
-            success: function(data){
-              if(data.stderr){
-                $('.output').html(data.stderr).addClass('error');
-              } else {
-                $('.output').html(data.stdout);
-              }
-            }
-          })
-        })
 
-        $("form").submit(function(e){
-          e.preventDefault();
-          $.ajax({
-            url: $(this).attr('action'),
-            type: $(this).attr('method') || "GET",
-            data: $(this).serialize(),
-            success: function(data){
-              data = JSON.stringify(data)
-              console.log(data)
-              if(data.stderr){
-                $('.output').html(data).addClass('error');
-              } else {
-                $('.output').html(data);
-              }
-            }
-          })
-        })
-      })
-    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Javascript -->
+<script src="/javascripts/jquery.min.js"></script>
+<script type="text/javascript" src="/javascripts/parseDiff.js"></script>
+<script type="text/javascript" src="/javascripts/lookout.js"></script>
+<script type="text/javascript" src="/javascripts/mustache.js"></script>
+
+<script src="/javascripts/app.js"></script>
+<script src="/javascripts/git/commit.js"></script>
+<script>
+document.write('<script src=' + ('__proto__' in {} ? '/js/vendor/zepto' : 'js/vendor/jquery') + '.js><\/script>')
+</script>
+<script src="/js/foundation.min.js"></script>
+<script>
+$(document).foundation();
+</script>
+</body>
 </html>
