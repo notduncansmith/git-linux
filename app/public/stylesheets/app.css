@@ -9,15 +9,15 @@
 
 #fileSelect {
   border: 1px solid gray;
-  height:400px;
   float: left;
 }
 
 div#diffBox {
   border: 1px solid gray;
-  height:400px;
   float: right;
   overflow-y: scroll;
+  height: 100%;
+  width: 100%;
 }
 
 .activeFile {
