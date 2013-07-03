@@ -51,4 +51,17 @@ router.get('/diff', function(req,res) {
   });
 });
 
+router.get('/commit', function(req, res) {
+  var filesToCommit = req.params.toCommit.split(';');
+
+
+  git('add ' + decodeURIComponent(filesToCommit).trim(), {cwd: '/home/phillip/working/git-linux'}, function(err, out) {
+    
+  });
+
+  git('commit "' + req.params.commitMessage + '"', {cwd: '/home/phillip/working/git-linux'}, function(err, out) {
+    res.send(out);
+  });
+});
+
 }
