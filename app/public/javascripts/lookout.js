@@ -87,7 +87,6 @@ var Lookout = {
       newHtml = Mustache.render(template, data);
 
       $(item).html(newHtml)
-      docCookies.setItem(updatedModel.id, updatedModel)
     })
   }
 }
